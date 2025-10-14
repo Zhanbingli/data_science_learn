@@ -1,0 +1,34 @@
+.
+|-- README.md
+|-- config
+|   `-- config.yaml
+|-- data
+|   |-- external
+|   |-- processed
+|   `-- raw
+|-- docs
+|   |-- getting_started.md
+|   `-- knowledge_checklist.md
+|-- models
+|-- notebooks
+|   |-- 01_eda
+|   |   |-- 01_data_loading_and_overview.ipynb
+|   |   `-- 02_univariate_analysis.ipynb
+|   |-- 02_preprocessing
+|   |-- 03_feature_engineering
+|   |-- 04_modeling
+|   `-- 05_evaluation
+|-- project_structure.txt
+|-- reports
+|   |-- figures
+|   `-- final
+|-- requirements.txt
+|-- src
+|   |-- data
+|   |   `-- data_loader.py
+|   |-- features
+|   |-- models
+|   `-- visualization
+`-- tests
+
+23 directories, 9 files

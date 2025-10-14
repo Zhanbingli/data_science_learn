@@ -1,0 +1,122 @@
+# 数据分析项目配置文件
+
+# 数据路径
+data:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  external_dir: "data/external"
+  train_file: "train.csv"
+  test_file: "test.csv"
+
+# 目标变量
+target:
+  column: "target"  # 修改为实际的目标列名
+  type: "classification"  # 或 "regression"
+
+# 特征工程
+feature_engineering:
+  # 缺失值处理策略
+  missing_values:
+    threshold: 0.5  # 缺失率超过50%的特征考虑删除
+    numeric_strategy: "median"  # mean, median, mode, constant
+    categorical_strategy: "mode"  # mode, constant, missing_category
+
+  # 异常值处理
+  outliers:
+    method: "iqr"  # iqr, zscore, isolation_forest
+    iqr_multiplier: 1.5
+
+  # 特征编码
+  encoding:
+    onehot_threshold: 10  # 类别数小于该值使用one-hot
+    target_encoding_smoothing: 0.3
+
+  # 特征选择
+  feature_selection:
+    variance_threshold: 0.01
+    correlation_threshold: 0.95
+
+# 模型训练
+model:
+  # 交叉验证
+  cv:
+    n_splits: 5
+    strategy: "stratified"  # stratified, kfold, group, time_series
+    shuffle: true
+    random_state: 42
+
+  # 评估指标
+  metrics:
+    classification:
+      - "accuracy"
+      - "f1"
+      - "roc_auc"
+    regression:
+      - "rmse"
+      - "mae"
+      - "r2"
+
+  # 模型列表
+  models:
+    - name: "logistic_regression"
+      enabled: true
+    - name: "random_forest"
+      enabled: true
+    - name: "xgboost"
+      enabled: true
+    - name: "lightgbm"
+      enabled: true
+    - name: "catboost"
+      enabled: true
+
+# LightGBM参数
+lightgbm:
+  default_params:
+    objective: "binary"  # binary, multiclass, regression
+    metric: "auc"
+    boosting_type: "gbdt"
+    num_leaves: 31
+    learning_rate: 0.05
+    feature_fraction: 0.8
+    bagging_fraction: 0.8
+    bagging_freq: 5
+    verbose: -1
+    random_state: 42
+
+  search_space:
+    num_leaves: [20, 31, 50, 80]
+    learning_rate: [0.01, 0.05, 0.1]
+    n_estimators: [100, 200, 500]
+    max_depth: [-1, 5, 10, 15]
+    min_child_samples: [5, 10, 20]
+
+# XGBoost参数
+xgboost:
+  default_params:
+    objective: "binary:logistic"
+    eval_metric: "auc"
+    max_depth: 6
+    learning_rate: 0.05
+    n_estimators: 200
+    subsample: 0.8
+    colsample_bytree: 0.8
+    random_state: 42
+
+# 超参数优化
+optimization:
+  method: "optuna"  # grid_search, random_search, optuna
+  n_trials: 50  # for optuna
+  timeout: 3600  # seconds
+
+# 输出
+output:
+  models_dir: "models"
+  reports_dir: "reports"
+  figures_dir: "reports/figures"
+  submission_file: "submission.csv"
+
+# 其他设置
+settings:
+  random_seed: 42
+  n_jobs: -1  # 使用所有CPU核心
+  verbose: true
