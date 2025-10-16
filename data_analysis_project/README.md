@@ -1,308 +1,313 @@
-# 数据分析与建模学习项目
+# 数据分析项目
 
-> 一个系统的、学习导向的数据分析竞赛项目框架
+> 完整的数据分析与机器学习项目框架
 
-## 📚 项目目标
+## ✨ 特性
 
-1. **完成竞赛任务**：获得良好的模型表现
-2. **系统学习**：掌握数据分析完整流程
-3. **知识沉淀**：形成可复用的代码库和方法论
+- 完整的数据分析工具链（数据加载、EDA、特征工程、建模、评估）
+- 模块化、可复用的代码结构
+- 论文级别的可视化模板
+- 自动化分析脚本
+- 支持多种机器学习模型（LR, RF, XGBoost, LightGBM, CatBoost）
+- 详细的文档和示例代码
+
+## 🚀 快速开始
+
+### 1. 环境设置
+
+```bash
+# 运行自动设置脚本（推荐）
+bash setup.sh
+
+# 或手动设置
+python3 -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+### 2. 准备数据
+
+将数据文件放入 `data/raw/` 目录：
+```
+data/raw/
+├── train.csv
+└── test.csv
+```
+
+### 3. 开始分析
+
+#### 方式一：自动化分析（最快）
+```bash
+python auto_analysis.py --train data/raw/train.csv --target target_column
+```
+一键生成完整的EDA报告和可视化图表！
+
+#### 方式二：使用Python脚本
+```python
+from src.utils.data_loader import DataLoader
+from src.visualization.plot_templates import EDAPlotter
+from src.models.model_trainer import ModelTrainer
+
+# 数据加载
+loader = DataLoader()
+df = loader.load_train_data()
+
+# 数据可视化
+plotter = EDAPlotter()
+plotter.plot_numeric_distribution(df, 'age', target='target')
+
+# 模型训练
+trainer = ModelTrainer(task_type='classification')
+trainer.cross_validate_all(X_train, y_train, cv=5)
+```
+
+#### 方式三：Jupyter Notebook
+```bash
+jupyter lab
+# 查看示例: notebooks/01_eda/example_eda.py
+#         notebooks/04_modeling/example_modeling.py
+```
 
 ---
 
-## 🗂️ 项目结构
+## 📁 项目结构
 
 ```
 data_analysis_project/
 │
 ├── data/                          # 数据目录
-│   ├── raw/                       # 原始数据（不可修改）
+│   ├── raw/                       # 原始数据
 │   ├── processed/                 # 处理后的数据
 │   └── external/                  # 外部数据源
 │
-├── notebooks/                     # Jupyter笔记本（按流程组织）
+├── notebooks/                     # Jupyter笔记本
 │   ├── 01_eda/                    # 探索性数据分析
 │   ├── 02_preprocessing/          # 数据预处理
 │   ├── 03_feature_engineering/    # 特征工程
 │   ├── 04_modeling/               # 模型训练
-│   └── 05_evaluation/             # 模型评估与优化
+│   └── 05_evaluation/             # 模型评估
 │
-├── src/                           # 源代码（模块化）
-│   ├── data/                      # 数据处理模块
+├── src/                           # 源代码模块
+│   ├── utils/                     # 工具模块
+│   │   ├── data_loader.py         # 数据加载
+│   │   └── statistical_tests.py   # 统计检验
+│   ├── visualization/             # 可视化模块
+│   │   └── plot_templates.py      # 绘图模板
 │   ├── features/                  # 特征工程模块
-│   ├── models/                    # 模型相关模块
-│   └── visualization/             # 可视化模块
+│   │   └── feature_engineering.py # 特征工程工具
+│   ├── models/                    # 模型模块
+│   │   └── model_trainer.py       # 模型训练器
+│   └── evaluation/                # 评估模块
+│       └── model_evaluator.py     # 模型评估器
 │
-├── models/                        # 保存的模型文件
-│
-├── reports/                       # 报告和可视化结果
-│   ├── figures/                   # 图表
-│   └── final/                     # 最终报告
-│
+├── models/                        # 保存的模型
+├── reports/                       # 报告和图表
+│   ├── figures/
+│   └── final/
 ├── config/                        # 配置文件
+│   └── config.yaml
+├── docs/                          # 文档
 │
-├── tests/                         # 单元测试
-│
-├── docs/                          # 文档和学习笔记
-│
+├── auto_analysis.py               # 自动化分析脚本
+├── setup.sh                       # 环境设置脚本
 ├── requirements.txt               # 依赖包
-├── environment.yml                # Conda环境配置
-└── README.md                      # 项目说明
+├── .gitignore                     # Git忽略文件
+├── README.md                      # 本文件
+└── PROJECT_STRUCTURE.md           # 详细结构说明
 ```
 
----
-
-## 🎯 学习路线图
-
-### Phase 1: 数据探索与理解 (Week 1)
-**学习目标**：掌握EDA方法，理解数据特征
-
-- [ ] **1.1 数据加载与初步观察**
-  - 知识点：Pandas基础、数据结构
-  - 实践：读取数据、查看形状、类型、缺失情况
-
-- [ ] **1.2 单变量分析**
-  - 知识点：描述性统计、分布分析
-  - 实践：数值型（直方图、箱线图）、类别型（频数统计）
-
-- [ ] **1.3 双变量分析**
-  - 知识点：相关性分析、卡方检验
-  - 实践：特征与目标的关系分析
-
-- [ ] **1.4 多变量分析**
-  - 知识点：相关矩阵、PairPlot
-  - 实践：特征间交互关系
-
-**产出**：EDA报告、数据质量报告
+详细说明请查看 [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)
 
 ---
 
-### Phase 2: 数据预处理 (Week 2)
-**学习目标**：掌握数据清洗和转换技术
+## 🛠️ 核心模块
 
-- [ ] **2.1 缺失值处理**
-  - 知识点：缺失机制（MCAR/MAR/MNAR）
-  - 方法：删除、均值/中位数填充、KNN填充、预测填充
-
-- [ ] **2.2 异常值处理**
-  - 知识点：IQR方法、Z-score、Isolation Forest
-  - 实践：检测与处理策略选择
-
-- [ ] **2.3 数据类型转换**
-  - 知识点：类型转换、日期处理
-  - 实践：优化数据类型降低内存
-
-- [ ] **2.4 数据标准化/归一化**
-  - 知识点：StandardScaler、MinMaxScaler、RobustScaler
-  - 实践：选择合适的标准化方法
-
-**产出**：清洗后的数据集、处理流程文档
-
----
-
-### Phase 3: 特征工程 (Week 3)
-**学习目标**：掌握特征构造和选择方法
-
-- [ ] **3.1 类别特征编码**
-  - 知识点：LabelEncoding、OneHotEncoding、TargetEncoding
-  - 实践：处理高基数类别特征
-
-- [ ] **3.2 数值特征构造**
-  - 知识点：多项式特征、分箱、对数变换
-  - 实践：构造业务相关特征
-
-- [ ] **3.3 特征交互**
-  - 知识点：特征组合、特征比例
-  - 实践：自动特征交互生成
-
-- [ ] **3.4 特征选择**
-  - 知识点：过滤法（相关性、卡方）、包装法（RFE）、嵌入法（树模型重要性）
-  - 实践：降低特征维度，避免过拟合
-
-**产出**：特征工程pipeline、特征重要性报告
-
----
-
-### Phase 4: 模型训练与选择 (Week 4)
-**学习目标**：掌握常用机器学习算法和调参方法
-
-- [ ] **4.1 建立Baseline**
-  - 知识点：简单模型（逻辑回归、决策树）
-  - 实践：快速建立性能基准
-
-- [ ] **4.2 集成学习模型**
-  - 知识点：
-    - Bagging（RandomForest）
-    - Boosting（XGBoost、LightGBM、CatBoost）
-    - Stacking
-  - 实践：对比不同模型表现
-
-- [ ] **4.3 交叉验证策略**
-  - 知识点：K-Fold、StratifiedKFold、GroupKFold、TimeSeriesSplit
-  - 实践：选择合适的验证策略
-
-- [ ] **4.4 超参数优化**
-  - 知识点：GridSearch、RandomSearch、Bayesian Optimization、Optuna
-  - 实践：自动化调参
-
-**产出**：训练好的模型、模型对比报告
-
----
-
-### Phase 5: 模型评估与优化 (Week 5)
-**学习目标**：掌握模型评估和调优技术
-
-- [ ] **5.1 评估指标深入理解**
-  - 分类：Accuracy、Precision、Recall、F1、AUC-ROC
-  - 回归：MAE、MSE、RMSE、R²、MAPE
-  - 实践：根据业务选择合适指标
-
-- [ ] **5.2 模型诊断**
-  - 知识点：学习曲线、验证曲线、残差分析
-  - 实践：识别过拟合/欠拟合
-
-- [ ] **5.3 模型解释**
-  - 知识点：特征重要性、SHAP、LIME、PDP
-  - 实践：理解模型决策逻辑
-
-- [ ] **5.4 模型融合**
-  - 知识点：加权平均、Stacking、Blending
-  - 实践：提升最终表现
-
-**产出**：优化后的模型、模型解释报告、竞赛提交文件
-
----
-
-## 🛠️ 技术栈
-
-### 核心库
+### 1. 数据加载 (`src/utils/data_loader.py`)
 ```python
-# 数据处理
-pandas >= 1.5.0
-numpy >= 1.23.0
+from src.utils.data_loader import DataLoader
 
-# 可视化
-matplotlib >= 3.6.0
-seaborn >= 0.12.0
-plotly >= 5.11.0
+loader = DataLoader()
+train_df = loader.load_train_data()
+loader.print_data_summary(train_df, '训练集')
+```
 
-# 机器学习
-scikit-learn >= 1.2.0
-xgboost >= 1.7.0
-lightgbm >= 3.3.0
-catboost >= 1.1.0
+### 2. 数据可视化 (`src/visualization/plot_templates.py`)
+```python
+from src.visualization.plot_templates import EDAPlotter
 
-# 模型解释
-shap >= 0.41.0
-eli5 >= 0.13.0
+plotter = EDAPlotter()
+plotter.plot_numeric_distribution(df, 'age', target='target')
+plotter.plot_categorical_distribution(df, 'category')
+plotter.plot_correlation_heatmap(df)
+```
 
-# 超参数优化
-optuna >= 3.0.0
+### 3. 统计检验 (`src/utils/statistical_tests.py`)
+```python
+from src.utils.statistical_tests import StatisticalTester
 
-# 其他
-jupyter >= 1.0.0
-tqdm >= 4.64.0
+tester = StatisticalTester()
+result = tester.comprehensive_analysis(df, 'feature', 'target')
+tester.print_test_results(result)
+```
+
+### 4. 特征工程 (`src/features/feature_engineering.py`)
+```python
+from src.features.feature_engineering import FeatureEngineer
+
+fe = FeatureEngineer()
+df = fe.handle_missing_values(df, strategy='auto')
+df = fe.encode_categorical(df, method='auto')
+df = fe.create_interaction_features(df, [('col1', 'col2')])
+df, info = fe.remove_outliers(df, method='iqr')
+```
+
+### 5. 模型训练 (`src/models/model_trainer.py`)
+```python
+from src.models.model_trainer import ModelTrainer
+
+trainer = ModelTrainer(task_type='classification')
+
+# 交叉验证对比
+results = trainer.cross_validate_all(X_train, y_train, cv=5)
+
+# 训练模型
+trainer.train_model('LightGBM', X_train, y_train, X_val, y_val)
+
+# 预测
+y_pred = trainer.predict('LightGBM', X_test)
+y_pred_proba = trainer.predict_proba('LightGBM', X_test)
+
+# 保存模型
+trainer.save_model('LightGBM', 'models/lgb_model.pkl')
+```
+
+### 6. 模型评估 (`src/evaluation/model_evaluator.py`)
+```python
+from src.evaluation.model_evaluator import ModelEvaluator
+
+evaluator = ModelEvaluator(task_type='classification')
+
+# 生成完整评估报告
+evaluator.generate_classification_report(
+    y_test, y_pred, y_pred_proba,
+    labels=['Class 0', 'Class 1'],
+    output_dir='reports/evaluation'
+)
+
+# 或单独绘制图表
+evaluator.plot_confusion_matrix(y_test, y_pred)
+evaluator.plot_roc_curve(y_test, y_pred_proba)
+evaluator.plot_learning_curve(model, X, y, cv=5)
 ```
 
 ---
 
-## 📝 每日工作流程
+## 📊 完整工作流程示例
 
-### 1. 开始工作
-```bash
-# 激活环境
-conda activate data_analysis
+```python
+import pandas as pd
+from sklearn.model_selection import train_test_split
 
-# 启动Jupyter
-jupyter lab
+# 1. 数据加载
+from src.utils.data_loader import DataLoader
+loader = DataLoader()
+df = loader.load_train_data()
 
-# 打开对应阶段的notebook
-```
+# 2. 探索性分析
+from src.visualization.plot_templates import EDAPlotter
+plotter = EDAPlotter()
+plotter.plot_correlation_heatmap(df)
 
-### 2. 编码规范
-- 每个notebook对应一个具体任务
-- 关键函数写入src/目录，便于复用
-- 每段代码添加注释说明学习要点
-- 记录实验结果和思考
+# 3. 特征工程
+from src.features.feature_engineering import FeatureEngineer
+fe = FeatureEngineer()
+df = fe.handle_missing_values(df)
+df = fe.encode_categorical(df, method='auto')
 
-### 3. 版本控制
-```bash
-git add .
-git commit -m "feat: 完成特征工程的类别编码部分"
-git push
-```
+# 4. 准备训练数据
+X = df.drop('target', axis=1)
+y = df['target']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
----
+# 5. 模型训练
+from src.models.model_trainer import ModelTrainer
+trainer = ModelTrainer(task_type='classification')
+trainer.cross_validate_all(X_train, y_train, cv=5)
+trainer.train_model('LightGBM', X_train, y_train, X_test, y_test)
 
-## 📊 学习成果检验
-
-### 每个阶段结束后自查：
-
-✅ **理解**：能否用自己的话解释核心概念？
-✅ **实践**：能否独立复现代码？
-✅ **应用**：能否在新数据集上应用？
-✅ **优化**：能否提出改进方案？
-
----
-
-## 🎓 学习资源推荐
-
-### 书籍
-- 《Python数据分析实战》
-- 《机器学习实战》
-- 《特征工程入门与实践》
-
-### 在线课程
-- Kaggle Learn（免费，实践性强）
-- Coursera: Applied Data Science with Python
-
-### 社区
-- Kaggle Discussions & Notebooks
-- GitHub优秀项目学习
-- 数据科学社区交流
-
----
-
-## 💡 学习建议
-
-1. **边学边做**：不要只看理论，一定要动手实践
-2. **记录思考**：在notebook中记录为什么这样做
-3. **对比实验**：同一问题尝试多种方法，对比效果
-4. **代码复用**：将通用函数模块化，形成自己的工具库
-5. **定期复盘**：每周总结学到的知识点和踩过的坑
-6. **参考学习**：看Kaggle优秀notebook，学习他人思路
-
----
-
-## 🚀 快速开始
-
-```bash
-# 1. 创建环境
-conda create -n data_analysis python=3.10
-conda activate data_analysis
-
-# 2. 安装依赖
-pip install -r requirements.txt
-
-# 3. 放置数据
-# 将竞赛数据放入 data/raw/ 目录
-
-# 4. 开始第一阶段
-jupyter lab notebooks/01_eda/
+# 6. 模型评估
+from src.evaluation.model_evaluator import ModelEvaluator
+evaluator = ModelEvaluator(task_type='classification')
+y_pred = trainer.predict('LightGBM', X_test)
+y_pred_proba = trainer.predict_proba('LightGBM', X_test)
+evaluator.generate_classification_report(y_test, y_pred, y_pred_proba)
 ```
 
 ---
 
-## 📈 进度追踪
+## 📝 配置文件
 
-| 阶段 | 开始日期 | 完成日期 | 状态 | 关键收获 |
-|------|---------|---------|------|---------|
-| Phase 1: EDA | | | ⬜ | |
-| Phase 2: 预处理 | | | ⬜ | |
-| Phase 3: 特征工程 | | | ⬜ | |
-| Phase 4: 模型训练 | | | ⬜ | |
-| Phase 5: 模型优化 | | | ⬜ | |
+所有参数都可以在 [config/config.yaml](config/config.yaml) 中配置：
+
+- 数据路径
+- 特征工程参数（缺失值处理、异常值阈值、编码方式）
+- 模型参数
+- 交叉验证策略
+- 超参数搜索空间
 
 ---
 
-祝学习顺利！🎉
+## 🎓 学习资源
+
+- [快速入门指南](docs/getting_started.md)
+- [知识点清单](docs/knowledge_checklist.md)
+- [项目结构详解](PROJECT_STRUCTURE.md)
+- [示例代码](notebooks/)
+
+---
+
+## 💡 使用技巧
+
+1. **使用配置文件**: 在 `config/config.yaml` 中管理所有参数
+2. **模块化开发**: 将可复用代码放入 `src/` 目录
+3. **版本控制**: 使用 git 跟踪代码变更
+4. **文档记录**: 在 notebook 中记录实验过程和思考
+5. **自动化**: 优先使用 `auto_analysis.py` 进行初步分析
+
+---
+
+## 🔧 依赖库
+
+核心依赖：
+- pandas >= 1.5.0
+- numpy >= 1.23.0
+- scikit-learn >= 1.2.0
+- matplotlib >= 3.6.0
+- seaborn >= 0.12.0
+- lightgbm >= 3.3.0
+- xgboost >= 1.7.0
+- catboost >= 1.1.0
+
+完整列表见 [requirements.txt](requirements.txt)
+
+---
+
+## 📜 License
+
+MIT License
+
+---
+
+## 🤝 贡献
+
+欢迎提交 Issue 和 Pull Request！
+
+---
+
+## 📧 联系方式
+
+如有问题或建议，欢迎联系。
+
+---
+
+**Happy Coding! 🎉**
