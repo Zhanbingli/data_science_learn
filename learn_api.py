@@ -59,3 +59,5 @@ for i in tqdm(range(0, len(pmids),batch_size)):
                 name_parts.append(a['LastName'])
             authors.append(' '.join(name_parts))
         results.append({'pmid': pmid, 'title': title, 'abstract': abstract})
+
+import pandas as pdP
