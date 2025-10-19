@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+dist/
+*.egg-info/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# 环境变量和密钥文件
+.env
+.env.local
+*.env
+config.json
+secrets.json
+
+# API Keys
+*_api_key.txt
+*token*.txt
+
+# 数据库
+*.db
+*.sqlite
+*.sqlite3
+
+# 日志文件
+*.log
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 临时文件
+*.tmp
+*.bak
+*.cache
